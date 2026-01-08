@@ -42,7 +42,7 @@ public class PokemonBattle {
             return false;
         }
 
-        for (int i = index; i < list.size(); i++) {
+        for (int i = index+1; i < list.size(); i++) {
             Collections.swap(list, index, i);
             int winCount=0;
             for(int j=0;j<list.size();j++){
