@@ -9,4 +9,6 @@ git add .  = To add change withing the current directory
 git add * - stages only modified and new file added 
 
 git config --global user.email <your_mail> 
-git config --global user.name <your_name>
+git config --global user.name <your_name> 
+
+git restore <fileName>  - this is used to get the files deleted and have not yet been commited
