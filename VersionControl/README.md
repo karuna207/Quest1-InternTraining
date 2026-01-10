@@ -12,3 +12,5 @@ git config --global user.email <your_mail>
 git config --global user.name <your_name> 
 
 git restore <fileName>  - this is used to get the files deleted and have not yet been commited
+
+git log --oneline  - summary of commits
