@@ -2,25 +2,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Evaluator implements ExpressionVisitor<String> {
+public class Evaluator implements ExpressionVisitor<Object> {
     private GlobalEnvironment env=GlobalEnvironment.getInstance();
     @Override
-    public String visitNumber(NumberNode node) {
-        return String.valueOf(node.getValue());
+    public Object visitNumber(NumberNode node) {
+        return node.getValue();
     }
 
     @Override
-    public String visitSymbol(SymbolNode node) {
+    public Object visitSymbol(SymbolNode node) {
         String symbol=node.getSymbol();
 
-        if(symbol.equals("+") || symbol.equals("-") || symbol.equals("*") || symbol.equals("/")){
+        if(symbol.equals("+") || symbol.equals("-") || symbol.equals("*") || symbol.equals("/") || symbol.equals(">") || symbol.equals("<") ||
+                symbol.equals(">=") || symbol.equals("<=") ||
+                symbol.equals("==")){
             return symbol;
         }
         return env.getVariable(symbol).toString();
     }
 
     @Override
-    public String visitList(ListNode node) {
+    public Object visitList(ListNode node) {
          List<Node> nodes=node.getChildren();
          Node symbolNode=nodes.get(0);
          Node leftNode=nodes.get(1);
@@ -28,22 +30,25 @@ public class Evaluator implements ExpressionVisitor<String> {
 
          if(symbolNode instanceof SymbolNode && ((SymbolNode) symbolNode).getSymbol().equals("define")){
              String varName = ((SymbolNode) leftNode).getSymbol();
-             String value=rightNode.accept(this);
+             Object value=rightNode.accept(this);
              env.addVariable(varName,value);
              return value;
          }
-         String symbol=symbolNode.accept(this);
-         String leftNumber=leftNode.accept(this);
-         String rightNumber=rightNode.accept(this);
+         Object symbol=symbolNode.accept(this);
+         Object leftNumber=leftNode.accept(this);
+         Object rightNumber=rightNode.accept(this);
          if(symbol.equals("+")){
-             return String.valueOf(Integer.parseInt(leftNumber)+Integer.parseInt(rightNumber));
+             return (int)leftNumber+(int)rightNumber;
          }
          else if(symbol.equals("-")){
-             return String.valueOf(Integer.parseInt(leftNumber)-Integer.parseInt(rightNumber));
+             return (int)leftNumber-(int)rightNumber;
          }else if(symbol.equals("*")){
-             return String.valueOf(Integer.parseInt(leftNumber)*Integer.parseInt(rightNumber));
+             return (int)leftNumber * (int)rightNumber;
          }else if(symbol.equals("/")){
-             return String.valueOf(Integer.parseInt(leftNumber)/Integer.parseInt(rightNumber));
+             if((int)rightNumber==0){
+                 throw new ArithmeticException("Division by zero is not possible");
+             }
+             return (int)leftNumber/(int)rightNumber;
          }
          return "";
     }
