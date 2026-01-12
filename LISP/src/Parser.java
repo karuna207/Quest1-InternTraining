@@ -3,14 +3,16 @@ import java.util.List;
 
 public class Parser {
     private List<String> tokens;
-    private Tokenizer tokenizer;
+    private final Tokenizer tokenizer;
     private int position;
 
-    public Parser(String input){
+    public Parser(){
         tokenizer=new Tokenizer();
+    }
+    public Node parse(String input){
         tokens=tokenizer.tokenize(input);
         position=0;
-        parseExpression();
+        return parseExpression();
     }
 
     private Node parseExpression(){
@@ -28,6 +30,7 @@ public class Parser {
             return NodeFactory.createListNode(nodes);
         }
         else if(current_token.matches("-?\\d+")){
+            position++;
             return NodeFactory.createNumberNode(Integer.parseInt(current_token));
         }else{
             return NodeFactory.createSymbolNode(current_token);
