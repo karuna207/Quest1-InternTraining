@@ -21,7 +21,7 @@ public class Parser {
         if(current_token.equals("(")){
             List<Node> nodes=new ArrayList<>();
             position++;
-            while(!tokens.get(position).equals(")")&& position< tokens.size()){
+            while(position<tokens.size() && !tokens.get(position).equals(")")){
                 Node node=parseExpression();
                 nodes.add(node);
             }
@@ -33,6 +33,7 @@ public class Parser {
             position++;
             return NodeFactory.createNumberNode(Integer.parseInt(current_token));
         }else{
+            position++;
             return NodeFactory.createSymbolNode(current_token);
         }
     }
