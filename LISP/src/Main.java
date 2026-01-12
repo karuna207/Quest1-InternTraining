@@ -4,6 +4,8 @@ void main() {
 
     List<String> program=new ArrayList<>();
 
+    program.add("(+ 1 2)");
+    program.add("(* 3 4)");
     program.add("(define x 10)");
     program.add("(if (> x 5) 1 0)");
 
@@ -12,8 +14,8 @@ void main() {
     Parser p1=new Parser();
     for(String line:program){
         Node node=p1.parse(line);
-        String result=node.accept(evaluator);
-        System.out.println("result "+result);
+        Object result=node.accept(evaluator);
+        System.out.println("result is "+result);
     }
 
 
