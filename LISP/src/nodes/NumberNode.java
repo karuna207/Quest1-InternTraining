@@ -1,3 +1,7 @@
+package nodes;
+
+import visitors.ExpressionVisitor;
+
 public class NumberNode implements Node{
     private int value;
     public NumberNode(int val){

@@ -1,9 +1,15 @@
+package visitors;
+import globalenvironment.GlobalEnvironment;
+import nodes.Node;
+import nodes.NumberNode;
+import nodes.SymbolNode;
+import nodes.ListNode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Evaluator implements ExpressionVisitor<Object> {
-    private GlobalEnvironment env=GlobalEnvironment.getInstance();
+    private GlobalEnvironment env= GlobalEnvironment.getInstance();
     @Override
     public Object visitNumber(NumberNode node) {
         return node.getValue();

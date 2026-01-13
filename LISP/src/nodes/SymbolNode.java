@@ -1,3 +1,7 @@
+package nodes;
+
+import visitors.ExpressionVisitor;
+
 public class SymbolNode implements Node {
     private String symbol;
 

@@ -1,4 +1,7 @@
+package nodes;
 import java.util.List;
+import nodes.Node;
+import visitors.ExpressionVisitor;
 
 public class ListNode implements Node {
     private List<Node> childrenNodes;
