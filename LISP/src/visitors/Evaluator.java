@@ -4,6 +4,8 @@ import nodes.Node;
 import nodes.NumberNode;
 import nodes.SymbolNode;
 import nodes.ListNode;
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,36 +60,63 @@ public class Evaluator implements ExpressionVisitor<Object> {
              env.addVariable(varName,value);
              return value;
          }
-         Object symbol=symbolNode.accept(this);
-         int leftNumber=(int)leftNode.accept(this);
-         int rightNumber=(int)rightNode.accept(this);
-         if(symbol.equals("+")){
-             return leftNumber+rightNumber;
-         }
-         else if(symbol.equals("-")){
-             return leftNumber-rightNumber;
-         }else if(symbol.equals("*")){
-             return leftNumber * rightNumber;
-         }else if(symbol.equals("/")){
-             if(rightNumber==0){
-                 throw new ArithmeticException("Division by zero is not possible");
+        int result=0;
+        Object symbol=symbolNode.accept(this);
+         if(isArithmeticOperator(symbol)){
+
+             int childrenCount=nodes.size();
+             for(int i=1;i<childrenCount;i++){
+                 Node Childnode=nodes.get(i);
+                 int number=(int)Childnode.accept(this);
+
+                 if(symbol.equals("+")){
+                     result+=number;
+                 }
+                 else if(symbol.equals("-")){
+                     result-=number;
+                 }else if(symbol.equals("*")){
+                     if(i==1){
+                         result=1;
+                     }
+                     result*=number;
+                 }else if(symbol.equals("/")){
+                     if(i==2 && number==0){
+                         throw new ArithmeticException("Division by zero is not possible");
+                     }
+                     if(i==1){
+                         result=number;
+                         continue;
+                     }
+                     result/=number;
+                 }
              }
-             return leftNumber/rightNumber;
-         }else if(symbol.equals(">")){
-             return leftNumber>rightNumber;
-         }else if(symbol.equals("<")){
-             return leftNumber<rightNumber;
+         }else{
+             int leftNumber=(int)nodes.get(1).accept(this);
+             int rightNumber=(int)nodes.get(2).accept(this);
+
+             if(symbol.equals(">")){
+                 return leftNumber>rightNumber;
+             }else if(symbol.equals("<")){
+                 return leftNumber<rightNumber;
+             }
+             else if(symbol.equals(">=")){
+                 return leftNumber>=rightNumber;
+             }
+             else if(symbol.equals("<=")){
+                 return leftNumber<=rightNumber;
+             }else if(symbol.equals("==")){
+                 return leftNumber==rightNumber;
+             }else if(symbol.equals("!=")){
+                 return leftNumber!=rightNumber;
+             }
          }
-         else if(symbol.equals(">=")){
-             return leftNumber>=rightNumber;
-         }
-         else if(symbol.equals("<=")){
-             return leftNumber<=rightNumber;
-         }else if(symbol.equals("==")){
-             return leftNumber==rightNumber;
-         }else if(symbol.equals("!=")){
-             return leftNumber!=rightNumber;
-         }
-         return "";
+
+         return result;
     }
+
+    private boolean isArithmeticOperator(Object symbol) {
+        return Arrays.asList("+", "-", "*", "/").contains(symbol);
+    }
+
+
 }

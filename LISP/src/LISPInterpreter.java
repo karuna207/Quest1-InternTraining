@@ -10,8 +10,8 @@ public class LISPInterpreter{
 
         List<String> program=new ArrayList<>();
 
-        program.add("(+ 1 2)");
-        program.add("(* 3 4)");
+        program.add("(+ 1 2 3 4)");
+        program.add("(* 3 4 5)");
         program.add("(define x 10)");
         program.add("(if (> x 5) 1 0)");
 
