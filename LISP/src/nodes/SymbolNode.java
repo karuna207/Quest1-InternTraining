@@ -5,10 +5,11 @@ import visitors.ExpressionVisitor;
 public class SymbolNode implements Node {
     private String symbol;
 
-    public SymbolNode(String symbolValue){
-        symbol=symbolValue;
+    public SymbolNode(String symbolValue) {
+        symbol = symbolValue;
     }
-    public String getSymbol(){
+
+    public String getSymbol() {
         return symbol;
     }
 
