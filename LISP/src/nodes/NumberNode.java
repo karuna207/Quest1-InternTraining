@@ -3,13 +3,13 @@ package nodes;
 import visitors.ExpressionVisitor;
 
 public class NumberNode implements Node {
-    private int value;
+    private final Double value;
 
-    public NumberNode(int val) {
+    public NumberNode(Double val) {
         value = val;
     }
 
-    public int getValue() {
+    public Double getValue() {
         return value;
     }
 

@@ -8,7 +8,7 @@ import nodes.NumberNode;
 import java.util.List;
 
 public class NodeFactory {
-    public static NumberNode createNumberNode(int val) {
+    public static NumberNode createNumberNode(Double val) {
         return new NumberNode(val);
     }
 

@@ -44,7 +44,7 @@ public class Evaluator implements ExpressionVisitor<Object> {
         if (isDefineExpression(symbolNode)) {
             return handleDefineExpression(nodes);
         }
-        int result = 0;
+        Double result = (double) 0;
         Object symbol = symbolNode.accept(this);
 
         if (isArithmeticOperator(symbol)) {
@@ -52,8 +52,8 @@ public class Evaluator implements ExpressionVisitor<Object> {
             return result;
 
         } else {
-            int leftNumber = (int) nodes.get(1).accept(this);
-            int rightNumber = (int) nodes.get(2).accept(this);
+            double leftNumber = (double) nodes.get(1).accept(this);
+            double rightNumber = (double) nodes.get(2).accept(this);
 
             return handleRelationOperator((String) symbol, leftNumber, rightNumber);
 
@@ -65,7 +65,7 @@ public class Evaluator implements ExpressionVisitor<Object> {
         return Arrays.asList("+", "-", "*", "/").contains(symbol);
     }
 
-    private boolean handleRelationOperator(String symbol, int leftNumber, int rightNumber) {
+    private boolean handleRelationOperator(String symbol, double leftNumber, double rightNumber) {
         switch ((String) symbol) {
             case ">":
                 return leftNumber > rightNumber;
@@ -83,12 +83,12 @@ public class Evaluator implements ExpressionVisitor<Object> {
         return false;
     }
 
-    private int handleArithmethicOperator(String symbol, List<Node> nodes) {
-        int result = 0;
+    private Double handleArithmethicOperator(String symbol, List<Node> nodes) {
+        Double result = (double)0;
         int childrenCount = nodes.size();
         for (int i = 1; i < childrenCount; i++) {
             Node Childnode = nodes.get(i);
-            int number = (int) Childnode.accept(this);
+            double number = (double)Childnode.accept(this);
 
             switch ((String) symbol) {
                 case "+":
@@ -96,22 +96,26 @@ public class Evaluator implements ExpressionVisitor<Object> {
                     break;
 
                 case "-":
-                    result -= number;
+                    if(i==1){
+                        result=(double)number;
+                    }else{
+                        result -= number;
+                    }
                     break;
 
                 case "*":
                     if (i == 1) {
-                        result = 1;
+                        result = (double)1;
                     }
                     result *= number;
                     break;
 
                 case "/":
-                    if (i == 2 && number == 0) {
+                    if (i >= 2 && number == 0) {
                         throw new ArithmeticException("Division by zero is not possible");
                     }
                     if (i == 1) {
-                        result = number;
+                        result = (double)number;
                         continue;
                     }
                     result /= number;
@@ -157,7 +161,4 @@ public class Evaluator implements ExpressionVisitor<Object> {
         env.addVariable(varName, value);
         return value;
     }
-
-
-
 }

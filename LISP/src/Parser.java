@@ -34,7 +34,7 @@ public class Parser {
             return NodeFactory.createListNode(nodes);
         } else if (current_token.matches("-?\\d+")) {
             position++;
-            return NodeFactory.createNumberNode(Integer.parseInt(current_token));
+            return NodeFactory.createNumberNode(Double.parseDouble(current_token));
         } else {
             position++;
             return NodeFactory.createSymbolNode(current_token);
